@@ -157,7 +157,7 @@ HTTP method of client request.
 
 Type: `string`
 
-URI path requested by the client.
+This includes only the path portion of the requested URL, without the query string.
 
 ## ClientRequestProtocol
 
@@ -187,7 +187,7 @@ Identifies requests as coming from an external source or another service within 
 
 Type: `string`
 
-URI requested by the client.
+This includes the full path and query string of the requested URL.
 
 ## ClientRequestUserAgent
 
