@@ -10,7 +10,7 @@ import type { ComponentProps } from "astro/types";
 import { Badge } from "@astrojs/starlight/components";
 
 type Props = z.infer<typeof props>;
-type Badge = ComponentProps<typeof Badge>;
+type BadgeType = ComponentProps<typeof Badge>;
 
 const props = z.object({
 	product: reference("products").optional(),
@@ -95,7 +95,7 @@ const difficulties = {
 			const spotlight =
 				tutorial.collection === "docs" && tutorial.data.spotlight;
 
-			const badges: Badge[] = [
+			const badges: BadgeType[] = [
 				{
 					text: difficulty,
 					variant: difficulties[difficulty],
