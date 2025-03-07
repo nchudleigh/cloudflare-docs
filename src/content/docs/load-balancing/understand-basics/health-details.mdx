@@ -1,6 +1,7 @@
 ---
 pcx_content_type: concept
 title: How endpoints and pools become unhealthy
+description: Learn how Cloudflare's dynamic load balancing ensures traffic is directed to healthy endpoints and pools, using monitors and health checks to maintain optimal performance.
 sidebar:
   order: 5
 
@@ -13,7 +14,6 @@ When we talk about dynamic load balancing, that means your load balancer only di
 But how does your load balancer *know* which endpoints can handle the traffic? We determine that through a system of monitors, health monitors, and pools.
 
 ***
-
 ## Dynamic load balancing
 
 Dynamic load balancing happens through a combination of <GlossaryTooltip term="pool" link="/load-balancing/pools/">pools</GlossaryTooltip>, <GlossaryTooltip term="monitor" link="/load-balancing/monitors/">monitors</GlossaryTooltip>, and <GlossaryTooltip term="health check">health checks</GlossaryTooltip>.
