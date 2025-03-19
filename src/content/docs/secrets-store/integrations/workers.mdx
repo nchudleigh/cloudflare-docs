@@ -32,7 +32,7 @@ You may also add account secrets directly from the Workers settings on the dashb
 
 Refer to [manage account secrets](/secrets-store/manage-secrets/) for further options.
 
-## 2. Bind an account secret to your worker
+## 2. Bind an account secret to your Worker
 
 (TBC) You must have one of the following [roles within your Cloudflare account](/secrets-store/access-control/):
 - Super Administrator
@@ -48,7 +48,7 @@ Refer to [manage account secrets](/secrets-store/manage-secrets/) for further op
 3. Go to **Settings** > **Bindings** and select **Add**.
 4. On the **Add a resource binding** side panel, choose **Secrets Store**.
 5. Fill in the required fields:
-    - **Variable name**: a name for the binding. This will be used for your worker to access the secret ([step 3](#3-access-the-secret-on-the-env-object) below).
+    - **Variable name**: a name for the binding. This will be used for your Worker to access the secret ([step 3](#3-access-the-secret-on-the-env-object) below).
     - **Secret name**: select from the list of available account secrets created in [step 1](#1-set-up-account-secrets-in-secrets-store).
     - (Optional - Admins only) If the secret you need does not exist yet, select **Create secret**. This will add an account level secret in the same way as if you had [created it on the Secrets Store](/secrets-store/manage-secrets/).
 6. Select **Deploy** to deploy your binding. When deploying, there are two options:
