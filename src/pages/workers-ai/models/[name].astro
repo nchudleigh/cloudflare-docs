@@ -106,7 +106,8 @@ if (model.name === "@cf/baai/bge-reranker-base") {
 const description = model.description;
 
 const isBeta = model.properties.find(
-	({ property_id, value }) => property_id === "beta" && value === "true",
+	(property: any) =>
+		property.property_id === "beta" && property.value === "true",
 );
 
 const hasPlayground = model.task.name === "Text Generation";

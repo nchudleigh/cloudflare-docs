@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import ModelInfo from "./models/ModelInfo";
 import ModelBadges from "./models/ModelBadges";
 import { authorData } from "./models/data";
-import type { WorkersAIModelsSchema } from "~/schemas";
 
 type Filters = {
 	search: string;
@@ -11,7 +10,7 @@ type Filters = {
 	capabilities: string[];
 };
 
-const ModelCatalog = ({ models }: { models: WorkersAIModelsSchema[] }) => {
+const ModelCatalog = ({ models }: { models: any[] }) => {
 	const [filters, setFilters] = useState<Filters>({
 		search: "",
 		authors: [],
@@ -39,18 +38,21 @@ const ModelCatalog = ({ models }: { models: WorkersAIModelsSchema[] }) => {
 		model: {
 			...model,
 			capabilities: model.properties
-				.flatMap(({ property_id, value }) => {
-					if (property_id === "lora" && value === "true") {
+				.flatMap((property: any) => {
+					if (property.property_id === "lora" && property.value === "true") {
 						return "LoRA";
 					}
 
-					if (property_id === "function_calling" && value === "true") {
+					if (
+						property.property_id === "function_calling" &&
+						property.value === "true"
+					) {
 						return "Function calling";
 					}
 
 					return [];
 				})
-				.filter((p) => Boolean(p)),
+				.filter((p: any) => Boolean(p)),
 		},
 		model_display_name: model.name.split("/").at(-1),
 	}));
@@ -61,18 +63,21 @@ const ModelCatalog = ({ models }: { models: WorkersAIModelsSchema[] }) => {
 		...new Set(
 			models.flatMap((model) =>
 				model.properties
-					.flatMap(({ property_id, value }) => {
-						if (property_id === "lora" && value === "true") {
+					.flatMap((property: any) => {
+						if (property.property_id === "lora" && property.value === "true") {
 							return "LoRA";
 						}
 
-						if (property_id === "function_calling" && value === "true") {
+						if (
+							property.property_id === "function_calling" &&
+							property.value === "true"
+						) {
 							return "Function calling";
 						}
 
 						return [];
 					})
-					.filter((p) => Boolean(p)),
+					.filter((p: any) => Boolean(p)),
 			),
 		),
 	];
@@ -91,7 +96,9 @@ const ModelCatalog = ({ models }: { models: WorkersAIModelsSchema[] }) => {
 		}
 
 		if (filters.capabilities.length > 0) {
-			if (!model.capabilities.some((c) => filters.capabilities.includes(c))) {
+			if (
+				!model.capabilities.some((c: any) => filters.capabilities.includes(c))
+			) {
 				return false;
 			}
 		}
@@ -231,8 +238,8 @@ const ModelCatalog = ({ models }: { models: WorkersAIModelsSchema[] }) => {
 				)}
 				{modelList.map((model) => {
 					const isBeta = model.model.properties.find(
-						({ property_id, value }) =>
-							property_id === "beta" && value === "true",
+						(property: any) =>
+							property.property_id === "beta" && property.value === "true",
 					);
 
 					const author = model.model.name.split("/")[1];

@@ -16,7 +16,6 @@ import {
 	glossarySchema,
 	learningPathsSchema,
 	videosSchema,
-	workersAiModelsSchema,
 	warpReleasesSchema,
 	releaseNotesSchema,
 	fieldsSchema,
@@ -88,8 +87,20 @@ export const collections = {
 		loader: dataLoader("products"),
 	}),
 	"workers-ai-models": defineCollection({
-		loader: dataLoader("workers-ai-models"),
-		schema: workersAiModelsSchema,
+		loader: async () => {
+			const res = await fetch("https://ai.cloudflare.com/api/models");
+
+			const data: { models: any[] } = await res.json();
+
+			return data.models.map((model) => {
+				const id = model.name.split("/")[2];
+
+				return {
+					id,
+					...model,
+				};
+			});
+		},
 	}),
 	videos: defineCollection({
 		loader: file("src/content/videos/index.yaml"),

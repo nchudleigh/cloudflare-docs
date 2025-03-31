@@ -1,6 +1,4 @@
-import type { WorkersAIModelsSchema } from "~/schemas";
-
-const ModelFeatures = ({ model }: { model: WorkersAIModelsSchema }) => {
+const ModelFeatures = ({ model }: { model: any }) => {
 	const nf = new Intl.NumberFormat("en-US");
 	const properties: any = {};
 	model.properties.forEach((property: any) => {
