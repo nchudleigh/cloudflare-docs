@@ -5,7 +5,7 @@ sidebar:
   order: 14
 ---
 
-import { Render } from "~/components";
+import { Render, Tabs, TabItem } from "~/components";
 
 Gateway responds to any domain blocked at the DNS level with `0.0.0.0` for IPv4 queries or `::` for IPv6 queries, and does not return that blocked domain's IP address. As a result, the browser will show a browser default error page, and users will not be able to reach that website. This may cause confusion and lead some users to think that their Internet connection is not working.
 
@@ -27,15 +27,34 @@ In order to display the block page as the URL of the blocked domain, your device
 
 For all HTTP Block policies, Gateway automatically displays a generic Cloudflare block page. For DNS Block policies, you will need to turn on the block page on a per-policy basis.
 
-To turn on the block page and specify a custom block message:
+To turn on the block page for a policy:
+
+<Tabs>
+
+<TabItem label="DNS policy">
 
 <Render
 	file="gateway/add-block-page"
 	params={{
-		firewallPolicyPath:
-			"**Gateway** > **Firewall policies** > **DNS** or **Gateway** > **Firewall policies** > **HTTP**",
+		firewallPolicyPath: "**Gateway** > **Firewall policies** > **DNS**",
+		blockBehaviorAction: "turn on",
 	}}
 />
+
+</TabItem>
+<TabItem label="HTTP policy">
+
+<Render
+	file="gateway/add-block-page"
+	params={{
+		firewallPolicyPath: "**Gateway** > **Firewall policies** > **HTTP**",
+		blockBehaviorAction: "go to",
+	}}
+/>
+
+</TabItem>
+
+</Tabs>
 
 ## Redirect to a block page
 
