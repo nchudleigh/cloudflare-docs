@@ -7,11 +7,7 @@ sidebar:
 
 import { Render, Tabs, TabItem } from "~/components";
 
-Gateway responds to any domain blocked at the DNS level with `0.0.0.0` for IPv4 queries or `::` for IPv6 queries, and does not return that blocked domain's IP address. As a result, the browser will show a browser default error page, and users will not be able to reach that website. This may cause confusion and lead some users to think that their Internet connection is not working.
-
-Configuring a custom block page in Zero Trust helps avoid this confusion. Your block page will display information such as the rule ID of the policy blocking the website, a policy-specific block message, your organization's name, and a global message you may want to show — for example, a message explaining that the website has been blocked by Gateway and providing any points of contact for support within the organization.
-
-Gateway supports custom block pages for DNS and HTTP policies.
+When Gateway blocks a traffic with a [DNS](/cloudflare-one/policies/gateway/dns-policies/#block) or [HTTP Block policy](/cloudflare-one/policies/gateway/http-policies/#block), Gateway can display a block page in your users' browsers. You can configure the block page to provide a descriptive reason for blocking traffic or to redirect to an internal page. You can apply these customizations globally for every Block policy, or override the settings on a per-policy basis.
 
 ## Prerequisites
 
