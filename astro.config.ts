@@ -90,11 +90,6 @@ export default defineConfig({
 				src: "./src/assets/logo.svg",
 			},
 			favicon: "/favicon.png",
-			social: {
-				github: "https://github.com/cloudflare/cloudflare-docs",
-				"x.com": "https://x.com/cloudflare",
-				youtube: "https://www.youtube.com/cloudflare",
-			},
 			editLink: {
 				baseUrl:
 					"https://github.com/cloudflare/cloudflare-docs/edit/production/",
