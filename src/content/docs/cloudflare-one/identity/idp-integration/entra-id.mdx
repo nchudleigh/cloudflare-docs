@@ -19,17 +19,17 @@ The following Entra ID values are required to set up the integration:
 
 To retrieve those values:
 
-1.  Log in to the [Azure dashboard](https://portal.azure.com/).
+1.  Log in to the [Microsoft Entra admin center](https://entra.microsoft.com/).
 
-2.  Go to **All services** > **Microsoft Entra ID**.
+2.  Go to **Applications** > **Enterprise applications**.
 
-3.  In the sidebar, go to **Manage** > **Enterprise applications**.
+3.  In the sidebar, go to **Manage** > **Enterprise applications**. (delete)
 
 4.  Select **New application**, then select **Create your own application**.
 
 5.  Name your application.
 
-6.  Select **Register an application to integrate with Microsoft Entra ID (App you're developing)** and then select **Create**.
+6.  Select **Register an application to integrate with Microsoft Entra ID (App you're developing)**. Do not select any of the gallery applications and, instead, select **Create**.
 
 7.  Under **Redirect URI**, select the _Web_ platform and enter the following URL:
 
@@ -43,9 +43,9 @@ To retrieve those values:
 
 8.  Select **Register**.
 
-9.  Next, return to Microsoft Entra ID and go to go to **Manage** > **App registrations**.
+9.  Next, return to Microsoft Entra ID and go to **Applications** > **App registrations**.
 
-10. Select the app you just created. Copy the **Application (client) ID** and **Directory (tenant) ID**.
+10. Select **All applications** and select the app you just created. Copy the **Application (client) ID** and **Directory (tenant) ID**.
 
     ![Viewing the Application ID and Directory ID in Azure](~/assets/images/cloudflare-one/identity/azure/azure-values.png)
 
@@ -57,7 +57,7 @@ To retrieve those values:
     When the client secret expires, users will be unable to log in through Access. Take note of your expiry date to prevent login errors and renew your client secret when necessary.
     :::
 
-13. After the client secret is created, copy its **Value** field. Store the client secret in a safe place, as it can only be viewed immediately after creation.
+13. After the client secret is created, copy its **Value** field. Store the client secret in a safe place, as it can only be viewed immediately after creation. You will need this value when [adding Entra ID as an identity provider](step 3).
 
     ![Location of client secret in Azure](~/assets/images/cloudflare-one/identity/azure/client-cert-value.png)
 
@@ -97,11 +97,13 @@ More narrow permissions may be used, however this is the set of permissions that
 
 2. Under **Login methods**, select **Add new**.
 
-3. Select **Azure AD**.
+3. Select **Entra ID**.
 
 4. Enter the **Application (client) ID**, **Client secret**, and **Directory (tenant) ID** obtained from Microsoft Entra ID.
 
-5. (Optional) Configure the following settings:
+5. (test or save)
+
+6. (Optional) Configure the following settings:
 
    - **Proof Key for Code Exchange**: Perform [PKCE](https://www.oauth.com/oauth2-servers/pkce/) on all login attempts.
    - **Support Groups**: Allow Cloudflare to read a user's Entra ID group membership.
@@ -200,7 +202,21 @@ SCIM requires a separate enterprise application from the one created during [ini
 
 3. Name your application (for example, `Cloudflare Access SCIM`).
 
-4. Select **Integrate any other application you don't find in the gallery (Non-gallery)**.
+4. Select **Integrate any other application you don't find in the gallery (Non-gallery)**. Do not select any of the gallery applications.
+
+6. Select **New configuration**.
+
+In the dash, you must toggle on **Enable SCIM**. Enable user deprovisioning and Remove user seat on deprovision is optional. SCIM identity update behavior is optional.
+
+In Zero Trust, after you have enabled SCIM, select **Regenerate Secret** which will give you SCIM Endpoint and the SCIM secret.
+
+8. In the **Tenant URL** field, enter the **SCIM Endpoint** obtained from Zero Trust.
+
+9. In the **Secret token** field, enter the **SCIM Secret** obtained from Zero Trust.
+
+10. Select **Test Connection** to ensure that the credentials were entered correctly.
+
+11. Select **Create**.
 
 5. Once the SCIM application is created, [assign users and groups to the application](https://learn.microsoft.com/entra/identity/enterprise-apps/assign-user-or-group-access-portal).
 
@@ -208,19 +224,11 @@ SCIM requires a separate enterprise application from the one created during [ini
    Groups in this SCIM application should match the groups in your other [Cloudflare Access enterprise application](/cloudflare-one/identity/idp-integration/entra-id/#set-up-entra-id-as-an-identity-provider). Because SCIM group membership updates will overwrite any groups in a user's identity, assigning the same groups to each app ensures consistent policy evaluation.
    :::
 
-6. Go to **Provisioning** and select **Get started**.
+new. Go to **Provisioning** and select **Start provisioning**.
 
-7. For **Provisioning Mode**, choose _Automatic_.
+7. For **Provisioning Mode**, default mode is _Automatic_.
 
-8. In the **Tenant URL** field, enter the **SCIM Endpoint** obtained from Zero Trust.
-
-9. In the **Secret Token** field, enter the **SCIM Secret** obtained from Zero Trust.
-
-10. Select **Test Connection** to ensure that the credentials were entered correctly.
-
-11. Select **Save**.
-
-12. On the **Provisioning** page, select **Start provisioning**. You will see the synchronization status in Entra ID.
+12. On the **Overview** page, you will see the synchronization status in Entra ID.
 
 To check which users and groups were synchronized, select **View provisioning logs**.
 
@@ -228,9 +236,9 @@ To check which users and groups were synchronized, select **View provisioning lo
 
 ### Provisioning attributes
 
-Provisioning attributes define the user properties that Entra ID will synchronize with Cloudflare Access. To modify your provisioning attributes, go to the **Provisioning** page in Entra ID and select **Edit attribute mappings**.
+Provisioning attributes define the user properties that Entra ID will synchronize with Cloudflare Access. To modify your provisioning attributes, go to the **Attribute mapping** and select **Provision Microsoft Entra ID Users**.
 
-We recommend enabling the following user attribute mappings:
+If not already configured, we recommend enabling the following user attribute mappings:
 
 | customappsso Attribute         | Entra ID Attribute | Recommendation |
 | ------------------------------ | ------------------ | -------------- |
