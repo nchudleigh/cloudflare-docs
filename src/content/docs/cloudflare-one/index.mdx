@@ -9,11 +9,101 @@ head:
     content: Overview
 ---
 
-import { GlossaryTooltip, Render } from "~/components";
+import {
+	CardGrid,
+	Description,
+	Feature,
+  GlossaryTooltip,
+	LinkButton,
+	LinkTitleCard,
+	Plan,
+	RelatedProduct,
+	Render,
+} from "~/components";
 
-Cloudflare Zero Trust replaces legacy security perimeters with Cloudflare's global network, making the Internet faster and safer for teams around the world. Refer to our [reference architecture](/reference-architecture/architectures/sase/) to learn how to evolve your network and security architecture to our SASE platform.
+<Description>
 
-## Features
+Secure your organization with Cloudflare Zero Trust - a cloud security model that replaces legacy perimeters with Cloudflare’s global network.
+
+</Description>
+
+<Plan type="all" href="https://www.cloudflare.com/plans/zero-trust-services/" />
+
+Explore our [reference architecture](/reference-architecture/architectures/sase/) to learn how to evolve your network and security architecture to our SASE platform.
+
+Cloudflare Zero Trust offers both [Free and Paid plans](https://www.cloudflare.com/plans/zero-trust-services/). Access to certain features depends on a customer's plan type.
+
+<LinkButton variant="primary" href="/cloudflare-one/setup/">
+	Get started
+</LinkButton> <LinkButton
+	variant="secondary"
+	href="https://one.dash.cloudflare.com/"
+>
+	Zero Trust dashboard
+</LinkButton><LinkButton
+	variant="secondary"
+	href="/cloudflare-one/implementation-guides/"
+>
+	Implementation guides
+</LinkButton>
+
+<Render file="non-contract-enablement" product="fundamentals" />
+
+## Related products
+
+<RelatedProduct header="Access" href="/cloudflare-one/policies/access/" product="access">
+
+Authenticate users on the Cloudflare global network, seamlessly onboard third-party users, and log every event and request.
+
+</RelatedProduct>
+
+<RelatedProduct header="Tunnel" href="/cloudflare-one/connections/connect-networks/" product="access">
+
+Description of product used together or connected configuration with current product.
+
+</RelatedProduct>
+
+<RelatedProduct header="Gateway" href="/cloudflare-one/policies/gateway/" product="access">
+
+Description of product used together or connected configuration with current product.
+
+</RelatedProduct>
+
+<RelatedProduct header="Browser Isolation" href="/cloudflare-one/policies/browser-isolation/" product="access">
+
+Description of product used together or connected configuration with current product.
+
+</RelatedProduct>
+
+<RelatedProduct header="Cloud Access Security Broker (CASB)" href="/cloudflare-one/applications/casb/" product="access">
+
+Description of product used together or connected configuration with current product.
+
+</RelatedProduct>
+
+<RelatedProduct header="Data Loss Prevention (DLP)" href="/cloudflare-one/policies/data-loss-prevention/" product="access">
+
+Description of product used together or connected configuration with current product.
+
+</RelatedProduct>
+
+<RelatedProduct header="Email Security" href="/cloudflare-one/email-security/" product="access">
+
+Description of product used together or connected configuration with current product.
+
+</RelatedProduct>
+
+<RelatedProduct header="Digital Experience Monitoring (DEX)" href="/workers-ai/" product="access">
+
+Description of product used together or connected configuration with current product.
+
+</RelatedProduct>
+
+---
+
+## More resources
+
+
 **Zero Trust access for all of your applications.**
 
 - Authenticate users on our global network
@@ -49,8 +139,3 @@ Cloudflare Zero Trust replaces legacy security perimeters with Cloudflare's glob
 - Configure policies to manage your inbox.
 - Automatically move emails based on a certain disposition.
 - Use screen criteria to investigate your email.
-
-## Availability
-Cloudflare Zero Trust offers both [Free and Paid plans](https://www.cloudflare.com/plans/zero-trust-services/). Access to certain features depends on a customer's plan type.
-
-<Render file="non-contract-enablement" product="fundamentals" />
