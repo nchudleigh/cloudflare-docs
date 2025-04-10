@@ -552,9 +552,79 @@ For development purposes, you can also execute the insert statements on the loca
 npx wrangler d1 execute fast-commerce --command "INSERT INTO products (id, name, description, price, inventory, category) VALUES (1, 'Fast Ergonomic Chair', 'A comfortable chair for your home or office', 100.00, 10, 'Furniture'), (2, 'Fast Organic Cotton T-shirt', 'A comfortable t-shirt for your home or office', 20.00, 100, 'Clothing'), (3, 'Fast Wooden Desk', 'A wooden desk for your home or office', 150.00, 5, 'Furniture'), (4, 'Fast Leather Sofa', 'A leather sofa for your home or office', 300.00, 3, 'Furniture'), (5, 'Fast Organic Cotton T-shirt', 'A comfortable t-shirt for your home or office', 20.00, 100, 'Clothing')"
 ```
 
+## Step 6: Add retry logic
 
+To make the application more resilient, you can add retry logic to the API routes. Create a new file called `retry.ts` in the `src` directory.
 
-## Step 6: Update the API routes
+```ts
+export interface RetryConfig {
+  maxRetries?: number;
+  initialDelay?: number;
+  maxDelay?: number;
+  backoffFactor?: number;
+}
+
+const shouldRetry = (error: unknown): boolean => {
+  const errMsg = error instanceof Error ? error.message : String(error);
+  return (
+    errMsg.includes("Network connection lost") ||
+    errMsg.includes("storage caused object to be reset") ||
+    errMsg.includes("reset because its code was updated")
+  );
+};
+
+export const defaultRetryConfig: RetryConfig = {
+  maxRetries: 3,
+  initialDelay: 100,
+  maxDelay: 1000,
+  backoffFactor: 2,
+};
+
+export async function withRetry<T>(
+  operation: () => Promise<T>,
+  config: RetryConfig = defaultRetryConfig
+): Promise<T> {
+  const maxRetries = config.maxRetries ?? defaultRetryConfig.maxRetries!;
+  const initialDelay = config.initialDelay ?? defaultRetryConfig.initialDelay!;
+  const maxDelay = config.maxDelay ?? defaultRetryConfig.maxDelay!;
+  const backoffFactor =
+    config.backoffFactor ?? defaultRetryConfig.backoffFactor!;
+
+  let lastError: Error | unknown;
+  let delay = initialDelay;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const result = await operation();
+      return result;
+    } catch (error) {
+      lastError = error;
+
+      if (!shouldRetry(error) || attempt === maxRetries) {
+        throw error;
+      }
+
+      // Wait for the calculated delay
+      await new Promise((resolve) => setTimeout(resolve, delay));
+
+      // Calculate next delay with exponential backoff
+      delay = Math.min(delay * backoffFactor, maxDelay);
+    }
+  }
+
+  throw lastError;
+}
+```
+
+The `withRetry` function is a utility function that retries a given operation with exponential backoff. It takes a configuration object as an argument, which allows you to customize the number of retries, initial delay, maximum delay, and backoff factor. It will only retry the operation if the error is due to a network connection loss, storage reset, or code update.
+
+Next, update the `src/index.ts` file to import the `withRetry` function and use it in the API routes.
+
+```ts
+import { withRetry } from "./retry";
+```
+
+## Step 7: Update the API routes
 
 Update the API routes to connect to the D1 database.
 
@@ -574,7 +644,8 @@ app.post('/api/product', async (c) => {
 
 	const { id } = product;
 
-	try {
+	return await withRetry(async() =>{ 
+		try{
 		// Check if the product exists
 		const { results } = await session.prepare('SELECT * FROM products where id = ?').bind(id).run();
 		if (results.length === 0) {
@@ -620,7 +691,7 @@ app.post('/api/product', async (c) => {
 	} catch (e) {
 		console.error(e);
 		return c.json({ message: 'Error upserting product' }, 500);
-	}
+	}});
 });
 
 ```
@@ -651,7 +722,8 @@ app.get('/api/products', async (c) => {
 
 	const session = db.withSession(bookmark);
 
-	try {
+	return await withRetry(async() => {
+		try {
 		const { results } = await session.prepare('SELECT * FROM products').all();
 
 		const latestBookmark = session.getBookmark();
@@ -666,7 +738,7 @@ app.get('/api/products', async (c) => {
 	} catch (e) {
 		console.error(e);
 		return c.json([]);
-	}
+	}})
 });
 
 ```
@@ -697,24 +769,26 @@ app.get('/api/products/:id', async (c) => {
 
 	const session = db.withSession(bookmark);
 
-	try {
-		const { results } = await session.prepare('SELECT * FROM products where id = ?').bind(id).run();
-
-		const latestBookmark = session.getBookmark();
-
-		// Set the bookmark in the cookie
-		latestBookmark &&
-			setCookie(c, 'product_bookmark', latestBookmark, {
-				maxAge: 60 * 60, // 1 hour
-			});
-
-		console.log(results);
-
-		return c.json(results);
-	} catch (e) {
-		console.error(e);
-		return c.json([]);
-	}
+	return await withRetry(async() => {
+		try {
+			const { results } = await session.prepare('SELECT * FROM products where id = ?').bind(id).run();
+	
+			const latestBookmark = session.getBookmark();
+	
+			// Set the bookmark in the cookie
+			latestBookmark &&
+				setCookie(c, 'product_bookmark', latestBookmark, {
+					maxAge: 60 * 60, // 1 hour
+				});
+	
+			console.log(results);
+	
+			return c.json(results);
+		} catch (e) {
+			console.error(e);
+			return c.json([]);
+		}
+	});
 });
 
 ```
@@ -727,7 +801,7 @@ In the above code:
 - Finally, you return the results.
 
 
-## Step 7: Test the application
+## Step 8: Test the application
 
 You have now updated the API routes to connect to the D1 database. You can now test the application by starting the development server and navigating to the frontend.
 
@@ -756,10 +830,10 @@ curl -X POST http://localhost:8787/api/product \
 ```
 
 :::note
-Read replication is only used when the application has been [deployed](/d1/tutorials/using-read-replication-for-e-com/#step-8-deploy-the-application). D1 does not create read replicas when you develop locally. To test it locally, you can start the development server with the `--remote` flag.
+Read replication is only used when the application has been [deployed](/d1/tutorials/using-read-replication-for-e-com/#step-9-deploy-the-application). D1 does not create read replicas when you develop locally. To test it locally, you can start the development server with the `--remote` flag.
 :::
 
-## Step 8: Deploy the application
+## Step 9: Deploy the application
 
 Since the database you used in the previous steps is local, you need to create the products table in the remote database. Execute the following D1 commands to create the products table in the remote database.
 
