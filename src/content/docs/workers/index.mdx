@@ -12,16 +12,21 @@ head:
 import { Description, RelatedProduct, LinkButton } from "~/components";
 
 <Description>
-	Build, deploy, and scale apps on Cloudflare’s global network
+Build, deploy, and scale apps across [Cloudflare's global network](https://www.cloudflare.com/network/) with a single command  —  no infrastructure to manage, no complex configuration
 </Description>
 
-- Simple deployment with streamlined configuration
-- Low latency, fast startup, and high performance
-- Unlimited scalability to support applications of any size
-- Multi-language compatibility, including JavaScript, TypeScript, Python, and Rust
-- Flexible [pricing](/workers/platform/pricing/) that stays affordable at any scale
+With Cloudflare Workers, you can expect to:
+- Deliver serverless, lightning-fast performance with low latency and optimized reliability
+- Use your Framework of choice, including [Vue](/workers/frameworks/framework-guides/vue/), [Svelt](/workers/frameworks/framework-guides/svelt/), [Astro](/workers/frameworks/framework-guides/astro/), [Remix](/frameworks/framework-guides/react-router/), [Next](/frameworks/framework-guides/nextjs/), [React](/workers/frameworks/framework-guides/react/), [and more](/workers/frameworks/)
+- Use your preferred language, including JavaScript, TypeScript, Python, Rust, and more
+- Get started for free and grow with flexible [pricing](/workers/platform/pricing/), affordable at any scale
+- Gain deep visibility and insight with built-in [Observability](/workers/observability/logs/)
 
-## <LinkButton variant="primary">Deploy with Workers</LinkButton>
+Get started with your first project:
+
+<LinkButton variant="primary">Deploy with Workers</LinkButton>
+
+You can also [get started locally with Cloudflare's Wrangler CLI](/workers/get-started/guide/)
 
 ---
 
@@ -29,25 +34,25 @@ import { Description, RelatedProduct, LinkButton } from "~/components";
 
 #### Front-end applications
 
-Front-end Applications with support for the most popular full stack frameworks - uses Cloudflare's CDN & cache and results in incredibly fast rendering anywhere in the globe
+Use Cloudflare's [CDN & cache](/cache/) for incredibly fast rendering anywhere in the world
 
 #### Back-end applications
 
-Back-end Applications that connect to data stores and are smart placed to optimize latency
+Connect to data stores with [Smart Placement](/workers/configuration/smart-placement/) to optimize latency
 
 #### Serverless AI inference
 
-Using some of the worlds most popular models - LLMs, image gen, etc
+Run LLMs, image generation, and more with [Workers AI](/workers-ai/)
 
 #### Background jobs
 
-Using cron Tasks, Workflows, or Queues
+Enable [cron jobs](/workers/configuration/cron-triggers/), [Workflows](/workflows/), and [Queues](/queues/)
 
 ---
 
 ## Integrate with Workers
 
-Integrations via [Bindings](/workers/runtime-apis/bindings/) let you connect to external services like databases, APIs, and storage, enabling functionality with just a few lines of code:
+Connect to external services like databases, APIs, and storage via [Bindings](/workers/runtime-apis/bindings/), enabling functionality with just a few lines of code:
 
 **Storage**
 
@@ -71,7 +76,13 @@ Low-latency key-value storage for fast, edge-cached reads.
 
 <RelatedProduct header="Queues" href="/queues/" product="queues">
 
-Lorem Ipsum dolor sit amet, consectetur adipiscing elit.
+Guaranteed delivery with no charges for egress bandwidth.
+
+</RelatedProduct>
+
+<RelatedProduct header="Hyperdrive" href="/hyperdrive/" product="hyperdrive">
+
+Accelerate database queries by caching at the edge.
 
 </RelatedProduct>
 
@@ -79,13 +90,13 @@ Lorem Ipsum dolor sit amet, consectetur adipiscing elit.
 
 <RelatedProduct header="Workers AI" href="/workers-ai/" product="workers-ai">
 
-Lorem Ipsum dolor sit amet, consectetur adipiscing elit.
+Machine learning models powered by serverless GPUs.
 
 </RelatedProduct>
 
 <RelatedProduct header="Workflows" href="/workflows/" product="workflows">
 
-Lorem Ipsum dolor sit amet, consectetur adipiscing elit.
+Durable multi-step applications that run automatically.
 
 </RelatedProduct>
 
@@ -101,6 +112,12 @@ Zero-egress object storage for cost-efficient data access.
 
 </RelatedProduct>
 
+<RelatedProduct header="Browser Rendering" href="/browser-rendering//" product="browser-rendering">
+
+Powerful serverless solution for dynamic content delivery.
+
+</RelatedProduct>
+
 **Media**
 
 <RelatedProduct header="Cache / CDN" href="/cache/" product="cache">
@@ -109,12 +126,13 @@ Global caching for high-performance, low-latency delivery.
 
 </RelatedProduct>
 
-<RelatedProduct header="Hyperdrive" href="/hyperdrive/" product="hyperdrive">
+<RelatedProduct header="Images" href="/images/" product="images">
 
-Accelerate database queries by caching at the edge.
+Streamlined image infrastructure from a single API.
 
 </RelatedProduct>
 
+
 ---
 
-[Join our Discord](https://discord.com/invite/cloudflaredev)
+Want to connect with the Workers community? [Join our Discord](https://discord.cloudflare.com)
